@@ -40,7 +40,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 class AtlasSensor(Entity):
 	"""Representation of a Sensor."""
-	io_mode = 0					# 0 = serial, 1 = I2C
+	io_mode = 1					# 0 = serial, 1 = I2C
 	long_timeout = 1.5         	# the timeout needed to query readings and calibrations
 	short_timeout = .5         	# timeout for regular commands
 	default_i2dev = "/dev/i2c-1"    # the default bus for I2C on the newer Raspberry Pis, certain older boards use bus 0
