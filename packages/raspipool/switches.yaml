@@ -1,19 +1,25 @@
 # Part of raspipool project @ github (by segalion at gmail)
 
 switch:
-  #  - platform: rpi_gpio
-  #    ports:
+  - platform: rpi_gpio
+    switches:
+      - port: 17
+        name: "Pump"
+        unique_id: "pump_switch_port_17"
+      - port: 18
+        name: "Heater"
+        unique_id: "heater_switch_port_18"
   # gpio_in_BCM_number: name
   # example=> pin#35 = 'gpio.24' = rpi24 = BCM_19 => 19: pump
   # execute 'gpio readall' to see all gpios an theis states in console
-  #     17: Pump
+  #      17: Pump
   #     27: Turbo
   #     20: ph
   #     21: orp
   #    invert_logic: true
-  - platform: sequent_microsystems
-    name: Pump
-    relay: 4
+  # - platform: sequent_microsystems
+  #   name: Pump
+  #   relay: 4
   #   value_template: >-
   #     {{ states('input_number.daily_runtime') }}
   - platform: sequent_microsystems

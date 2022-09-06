@@ -61,7 +61,7 @@ input_boolean:
   imperial:
     name: Imperial Units
     icon: mdi:tape-measure
-    initial: true
+    initial: false
 
   maintenance:
     name: Maintainance
