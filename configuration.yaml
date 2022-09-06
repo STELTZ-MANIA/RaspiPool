@@ -3,18 +3,25 @@ homeassistant:
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude
   longitude: !secret longitude
-  unit_system: imperial
+  unit_system: metric
+  currency: AUD
+  time_zone: Australia/Hobart
   # customize: !include customize.yaml
   packages: !include_dir_named packages
-  internal_url: "http://homeassistant.local:8123"
+  external_url: "https://the-hq.duckdns.org"
+  internal_url: "https://raspipool.local:8123"
+
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
 
 # Disable default config, selectively enable services needed.
 # default_config:
 
 # automation:
-# cloud:
-# config:
-# discovery:
+cloud:
+config:
+discovery:
 frontend:
   extra_module_url:
     - /local/card-mod/card-mod.js
@@ -26,7 +33,7 @@ input_number:
 input_select:
 input_text:
 logbook:
-# map:
+map:
 mobile_app:
 # person
 # scene
@@ -72,11 +79,9 @@ lovelace:
       type: module
     - url: /local/kiosk-mode/kiosk-mode.js?v=1.2.1
       type: module
-panel_iframe:
-  node_red:
-    title: Node Red
-    icon: mdi:wrench
-    url: http://sparkly.local:46836/
+    - url: /local/community/opensprinkler-card/opensprinkler-card.js?v=1.12
+      type: module
+
 panel_custom:
   - name: panel-redirect
     # url_path needs to be unique for each panel_custom config
