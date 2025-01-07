@@ -1,3 +1,4 @@
+# Modified Version for testing
 # Under MIT licence
 # Release 0.1 (06/08/2019) by segalion at gmail
 # ORP & pH tested. DO & EC from datasheets, so possible errors like ORP/OR
@@ -16,7 +17,10 @@ from homeassistant.const import (
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
-from homeassistant.const import TEMP_CELSIUS, TEMP_FAHRENHEIT
+# from homeassistant.const import TEMP_CELSIUS, TEMP_FAHRENHEIT
+# TEMP_CELSIUS was used from atlas_scientific, this is a deprecated constant which will be removed in HA Core 2025.1. 
+# Use UnitOfTemperature.CELSIUS instead, please report it to the author of the 'atlas_scientific' custom integration
+from homeassistant.const import UnitOfTemperature
 
 _LOGGER = logging.getLogger(__name__)
 CONF_OFFSET = 'offset'
@@ -26,7 +30,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 	vol.Required(CONF_PORT): cv.string,
 	vol.Optional(CONF_NAME, default='ezo'): cv.string,
 	vol.Optional(CONF_OFFSET, default=0.0): vol.Coerce(float),
-	vol.Optional(CONF_SCALE, default=TEMP_CELSIUS): cv.string
+	vol.Optional(CONF_SCALE, default=UnitOfTemperature.CELSIUS): cv.string
 })
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
@@ -51,18 +55,19 @@ class AtlasSensor(Entity):
 		self._state = None
 		self._name = name
 		self._offset = offset
-		# try to convert variations of TEMP_CELSIUS, C, ºC, °C to a unique format
+		# try to convert variations of UnitOfTemperature.CELSIUS, C, ºC, °C to a unique format
 		lowercase_scale = scale[-1].lower()
 		self._scale = lowercase_scale
 		# Identifiers: [ name (from I?), units, icon, auto_sleep ]
 		if lowercase_scale == 'f':
-			temp_uom = TEMP_FAHRENHEIT
+			temp_uom = UnitOfTemperature.FAHRENHEIT
 		else:
 			# default to CELSIUS
-			temp_uom = TEMP_CELSIUS
+			temp_uom = UnitOfTemperature.CELSIUS
 		temp = ['temperature', temp_uom, 'mdi:coolant-temperature', 1]
 		ezos = {"ph": ['ph', 'pH', 'mdi:alpha-h-circle', 1],
 			   "orp": ['orp', 'mV', 'mdi:alpha-r-circle', 1],
+			   "flo": ['flow', 'l/min', 'mdi:alpha-x-circle', 1],
 			   "or": ['orp', 'mV', 'mdi:alpha-r-circle', 1],
 			   "do": ['dissolved_oxygen','mV', 'mdi:alpha-x-circle', 0],
 			   "d.o.": ['dissolved_oxygen','mV', 'mdi:alpha-x-circle', 0],
