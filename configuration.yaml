@@ -8,8 +8,8 @@ homeassistant:
   time_zone: Australia/Hobart
   # customize: !include customize.yaml
   packages: !include_dir_named packages
-  external_url: "https://the-hq.duckdns.org"
-  internal_url: "https://raspipool.local:8123"
+  external_url: ""
+  internal_url: ""
 
 http:
   ssl_certificate: /ssl/fullchain.pem
